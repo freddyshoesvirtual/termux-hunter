@@ -4,6 +4,18 @@ Interfaz Android con botones y formularios para las herramientas de [Termux](htt
 
 > Úsala solo en redes y equipos para los que tengas autorización.
 
+## Capturas
+
+| Herramientas detectadas | Formulario de Nmap | Comandos personalizados |
+|:---:|:---:|:---:|
+| ![Herramientas](docs/screenshots/tools.png) | ![Nmap](docs/screenshots/nmap.png) | ![Comandos](docs/screenshots/commands.png) |
+
+| Ajustes y root | Ejecución en Termux |
+|:---:|:---:|
+| ![Ajustes](docs/screenshots/settings.png) | ![Terminal](docs/screenshots/terminal.png) |
+
+> Capturas tomadas en un emulador sin root, así que la detección de root aparece como no disponible.
+
 ## Funciones
 
 - **Detección automática**: lista los ejecutables de `$PREFIX/bin` de Termux. Las herramientas conocidas (nmap, whois, dig, curl, sqlmap, hydra, tcpdump, etc.) tienen su propio formulario; el resto de binarios usa un formulario genérico de argumentos.

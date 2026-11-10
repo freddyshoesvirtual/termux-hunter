@@ -52,7 +52,7 @@ object TermuxBridge {
     private val pending = ConcurrentHashMap<Int, CompletableDeferred<CommandResult>>()
 
     private const val FIND_SU =
-        "SU=\"\"; for p in \$(command -v su 2>/dev/null) /system/bin/su /system/xbin/su /sbin/su /debug_ramdisk/su /su/bin/su; do " +
+        "SU=\"\"; for p in /debug_ramdisk/su /sbin/su /system/xbin/su /system/bin/su /su/bin/su /system/sbin/su \$(command -v su 2>/dev/null); do " +
             "if [ -z \"\$SU\" ] && [ -x \"\$p\" ]; then SU=\"\$p\"; fi; done; " +
             "if [ -z \"\$SU\" ]; then echo 'Root no disponible: no se encontró su' >&2; exit 127; fi"
 
@@ -125,6 +125,9 @@ object TermuxBridge {
             putExtra(EXTRA_SESSION_ACTION, SESSION_ACTION_SWITCH_AND_OPEN)
         }
         send(context, intent)
+        // Android 10+ blocks Termux from opening its own activity from the background
+        // unless it has "display over other apps", so bring it to front from here.
+        openTermux(context)
     }
 
     /** Runs [command] in the background inside Termux and returns its output. */

@@ -93,7 +93,12 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                     rootState = RootState.AVAILABLE
                 } else {
                     rootState = RootState.UNAVAILABLE
-                    rootDetail = (r.stderr.ifBlank { r.errMsg }).trim().ifBlank { "su no concedió acceso root" }
+                    val output = "${r.stdout}\n${r.stderr}"
+                    rootDetail = when {
+                        r.exitCode == 127 || output.contains("No su program", ignoreCase = true) ->
+                            "No se encontró su: el dispositivo no está rooteado"
+                        else -> (r.stderr.ifBlank { r.errMsg }).trim().ifBlank { "su no concedió acceso root" }
+                    }
                     if (preferRoot) updatePreferRoot(false)
                 }
             }.onFailure {
